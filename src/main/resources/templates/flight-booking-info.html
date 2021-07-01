@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+    <div th:replace="fragments/general.html :: head"></div>
+    <body>
+        <div th:replace="fragments/general.html :: header"></div>
+
+        <div class="columns is-centered">
+            <div class="column is-four-fifths">
+                <h1 class="is-size-1">Information sur les vols</h1>
+
+                <table class="table is-bordered mt-2">
+                    <thead>
+                        <tr>
+                            <th>Départ</th>
+                            <th>Destination</th>
+                            <th>Date départ</th>
+                            <th>Date arrivée</th>
+                            <th>Avion</th>
+                            <th>Classe</th>
+                            <th>Chaises total</th>
+                            <th>Chaises restantes</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="flight: ${flights}">
+                            <td th:text="${flight.getOrigin_name()}" />
+                            <td th:text="${flight.getDest_name()}" />
+                            <td th:text="${#dates.format(flight.getDate_flight_departure(), 'dd-MMM-yyyy HH:mm')}" />
+                            <td th:text="${#dates.format(flight.getDate_flight_arriving(), 'dd-MMM-yyyy HH:mm')}" />
+                            <td th:text="${flight.getName()}" />
+                            <td th:text="${flight.getName_placeType()}" />
+                            <td th:text="${flight.getNumber_places()}" />
+                            <td  th:classappend="${flight.getNumber_places() != flight.getRemain_places()} ? showRemainPlace : standardClass" th:text="${flight.getRemain_places()}" />
+                            <td>
+                                <a th:href='@{/flight-details/{id}(id=${flight.getId()})}' class="button is-small is-marginless is-primary">Détails</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+
+            </div>
+        </div>
+        <div th:replace="fragments/general.html :: footer"></div>
+    </body>
+</html> 

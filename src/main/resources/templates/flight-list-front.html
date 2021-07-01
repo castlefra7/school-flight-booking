@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+    <div th:replace="fragments/general.html :: head"></div>
+    <body>
+        <div th:replace="fragments/general.html :: header"></div>
+        <div class="p-5">
+            <div class="mb-2">
+                <a class="button is-primary" th:href="@{/flight-front}"
+                   >Retour</a
+                >
+            </div>
+            <div class="columns is-mobile ">
+                <div class="column is-two-fifths">
+                    <div class="card">
+                        <header class="card-header">
+                            <p class="card-header-title">Prix</p>
+                            <button class="card-header-icon" aria-label="more options">
+                                <span class="icon">
+                                    <i class="fas fa-angle-down" aria-hidden="true"></i>
+                                </span>
+                            </button>
+                        </header>
+                        <div class="card-content">
+                            <div class="content">
+                                <!--<h2 class="title is-3">Dates sélectionnées</h2>
+                                <p>Départ: 01 Juillet 2021 18:00</p>
+                                <p>Retour: 25 Juillet 2021 18:00</p> -->
+                                <div th:if="${price != null}">
+                                    <p th:text="'Prix Total: ' + ${#numbers.formatDecimal(price,3,'POINT',2,'COMMA')}" />
+                                </div>
+                            </div>
+                        </div>
+                        <div th:if="${price != null}">
+                            <footer class="card-footer">
+                                <a th:href="@{/flight-begin-booking(id-flight-dep=${id_flight_dep}, id-flight-arr=${id_flight_arr}) }" class="card-footer-item">Réserver</a>
+                            </footer>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="my-1">
+                
+                <a class="button is-primary" id="btn-calculate-price" th:attr="data-url=@{/calculate-price(id-flight-dep=0,id-flight-arr=0)}" th:href="@{/calculate-price(id-flight-dep=-1,id-flight-arr=-1)}"
+                   >Calculer Prix</a
+                >
+            </div>
+            <h2 class="title is-2 my-5">Aller</h2>
+            <div class="columns is-multiline">
+
+                <div th:each="flight: ${flightsGo}"  class="column is-one-fifth ">
+                    <div class="card ">
+                        <header class="card-header">
+                            <p class="card-header-title" th:text=" 'Départ: ' + ${#dates.format(flight.getDate_flight_departure(), 'dd-MMM-yyyy HH:mm')}"></p>
+                            <button class="card-header-icon" aria-label="more options">
+                                <span class="icon">
+                                    <i class="fas fa-angle-down" aria-hidden="true"></i>
+                                </span>
+                            </button>
+                        </header>
+                        <div class="card-content">
+                            <div class="content">
+                                <p th:each='pricing: ${flight.getPricings()}' 
+                                   th:text="${pricing.getPlaceType().getName()
+                                   + ' ' + pricing.getPassenger_categ()
+                                   + ' ' + #numbers.formatDecimal(pricing.getPrice(),3,'POINT',2,'COMMA')}  " />
+                            </div>
+                        </div>
+                        <footer class="card-footer">
+                            <button th:attr="data-id-flight=${flight.getId()}"  class="card-departure-flight button is-primary card-footer-item">Choisir</button>
+                        </footer>
+                    </div>
+                </div>
+            </div>
+            
+            <h2 class="title is-2 my-5">Retour</h2>
+            <div class="columns is-multiline">
+
+                <div th:each="flight: ${flightsBack}"  class="column is-one-fifth ">
+                    <div class="card ">
+                        <header class="card-header">
+                            <p class="card-header-title" th:text=" 'Départ: ' + ${#dates.format(flight.getDate_flight_departure(), 'dd-MMM-yyyy HH:mm')}"></p>
+                            <button class="card-header-icon" aria-label="more options">
+                                <span class="icon">
+                                    <i class="fas fa-angle-down" aria-hidden="true"></i>
+                                </span>
+                            </button>
+                        </header>
+                        <div class="card-content">
+                            <div class="content">
+                                <p th:each='pricing: ${flight.getPricings()}' 
+                                   th:text="${pricing.getPlaceType().getName()
+                                   + ' ' + pricing.getPassenger_categ()
+                                   + ' ' + #numbers.formatDecimal(pricing.getPrice(),3,'POINT',2,'COMMA')}  " />
+                            </div>
+                        </div>
+                        <footer class="card-footer">
+                            <button th:attr="data-id-flight=${flight.getId()}"  class="card-arriving-flight button is-primary card-footer-item">Choisir</button>
+                        </footer>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div th:replace="fragments/general.html :: footer"></div>
+    </body>
+</html>

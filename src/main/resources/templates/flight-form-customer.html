@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+    <div th:replace="fragments/general.html :: head"></div>
+    <body>
+        <div th:replace="fragments/general.html :: header"></div>
+        <div class="columns is-mobile is-centered">
+            <div class="column p-5 is-one-third">
+                <div class="mb-2">
+                    <a class="button is-primary" th:href="@{/flight-passenger-info}"
+                       >Retour</a
+                    >
+                </div>
+                <h1>Vos coordonnées</h1>
+                <form  th:object="${custAttr}"
+                       method="post"
+                       th:action="@{/flight-book}"
+                       >
+                    <div class="field">
+                        <label class="label">Date</label>
+                        <div class="control">
+                            <input class="input"  th:field="*{date_booking}" type='datetime-local'/>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">Nom et Prénom</label>
+                        <div class="control">
+                            <input class="input" th:field="*{full_name}" />
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">Email</label>
+                        <div class="control">
+                            <input class="input" th:field="*{email}" />
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">Contact</label>
+                        <div class="control">
+                            <input class="input" th:field="*{phone_number}" />
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label class="label">Adresse</label>
+                        <div class="control">
+                            <input class="input" th:field="*{address}" />
+                        </div>
+                    </div>
+
+                    <div class="buttons">
+                        <button class="button is-primary is-fullwidth" type="submit">Valider</button>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+    </body>
+</html>

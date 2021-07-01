@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <div th:replace="fragments/general.html :: head"></div>
+    <body>
+        <div th:replace="fragments/general.html :: header"></div>
+
+        <div class="columns is-centered">
+            <div class="column is-four-fifths">
+                <h1 class="is-size-1">Liste des vols</h1>
+                <a class="button is-primary" th:href="@{/flight-form}">Nouveau vol</a>
+
+                <table class="table is-bordered mt-2">
+                    <thead>
+                        <tr>
+                            <th>Départ</th>
+                            <th>Destination</th>
+                            <th>Date départ</th>
+                            <th>Date arrivée</th>
+                            <th>Avion</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="flight: ${flights}">
+                            <td th:text="${flight.getRoute().getTownOrigin().getName()}" />
+                            <td th:text="${flight.getRoute().getTownDest().getName()}" />
+                            <td th:text="${#dates.format(flight.getDate_flight_departure(), 'dd-MMM-yyyy HH:mm')}" />
+                            <td th:text="${#dates.format(flight.getDate_flight_arriving(), 'dd-MMM-yyyy HH:mm')}" />
+                            <td th:text="${flight.getPlane().getName()}" />
+                            
+                        </tr>
+                    </tbody>
+                </table>
+                
+                
+            </div>
+        </div>
+        <div th:replace="fragments/general.html :: footer"></div>
+    </body>
+</html> 

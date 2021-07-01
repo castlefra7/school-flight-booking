@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+    <div th:replace="fragments/general.html :: head"></div>
+    <body>
+        <div th:replace="fragments/general.html :: header"></div>
+
+        <div class="columns is-centered p-5">
+            <div class="column is-full">
+                <h1 class="is-size-1">Liste des réservations pour ce Vol</h1>
+                <a class="button is-secondary" th:href="@{/flight-booking-info}">Retour</a>
+
+                <table class="table is-bordered mt-2">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Code</th>
+                            <th>Nom</th>
+                            <th>Prénom</th>
+                            <th>Catégorie</th>
+                            <th>Classe</th>
+                            <th>Client</th>
+                            <th>Contact</th>
+                            <th>Email</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="flight: ${flightDetails}">
+                            <td th:text="${#dates.format(flight.getDate_booking(), 'dd-MMM-yyyy HH:mm')}" />
+                            <td th:text="${flight.getBooking_number()}" />
+                            <td th:text="${flight.getLast_name()}" />
+                            <td th:text="${flight.getFirst_name()}" />
+                            <td th:text="${flight.getPassenger_categ()}" />
+                            <td th:text="${flight.getName_placetype()}" />
+                            <td th:text="${flight.getFull_name()}" />
+                            <td th:text="${flight.getPhone_number()}" />                            
+                            <td th:text="${flight.getEmail()}" />
+                        </tr>
+                    </tbody>
+                </table>
+
+
+            </div>
+        </div>
+        <div th:replace="fragments/general.html :: footer"></div>
+    </body>
+</html> 

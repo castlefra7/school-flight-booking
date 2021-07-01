@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+    <div th:replace="fragments/general.html :: head"></div>
+    <body>
+        <div th:replace="fragments/general.html :: header"></div>
+        <div class="m-5">
+            <h1 class="mb-5 is-size-1">Vos billets</h1>
+
+            <div class="columns is-multiline is-centered">
+                <div th:each="ticket: ${tickets}" class=" is-full column">
+                    <div class="card">
+                        <header class="card-header">
+                            <p class="card-header-title" th:text="'Vol: ' + ${ticket.getOrigin_name() + ' - ' + ticket.getDest_name()}" />
+                        </header>
+                        <div class="card-content">
+                            <div class="content is-flex is-justify-content-space-between	">
+                                <div>
+                                    <p th:text="'Nom: ' + ${ticket.getLast_name()}" />
+                                    <p th:text="'Prénom: ' + ${ticket.getFirst_name()}" />
+                                    <p th:text="'Classe: ' + ${ticket.getName_placetype()}" />
+                                </div>
+                                <div>
+                                    <p th:text="'Avion: ' + ${ticket.getName()}" />
+                                    <p th:text="'Billet de réservation pour: ' + 
+                                        ${#dates.format(ticket.getDate_flight_departure(), 'dd-MMM-yyyy HH:mm')}" />
+                                    <p th:text="'Catégorie: ' + ${ticket.getPassenger_categ()}" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div th:replace="fragments/general.html :: footer"></div>
+    </body>
+</html> 

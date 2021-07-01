@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+    <div th:replace="fragments/general.html :: head"></div>
+    <body>
+        <div th:replace="fragments/general.html :: header"></div>
+        <div class="columns is-desktop is-centered">
+            <div class="column p-5 is-one-third">
+                <h1>Recherche vol</h1>
+                <form  th:object="${flighAttr}"
+                       method="post"
+                       th:action="@{/flight-front}"
+                       >
+
+                    <div class='is-flex is-justify-content-space-between'>
+                        <div class="field">
+                            <label class="label">Ville départ</label>
+                            <div class="control wrapper wrapper-departure">
+                                <input th:field="*{townOrigin}" class="input" type="text" name="search" id="search-departure" placeholder="" autocomplete="chrome-off">
+                                <div class="results">
+                                    <ul>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Ville arrivée</label>
+                            <div class="control wrapper wrapper-arriving">
+                                <input th:field="*{townDest}" class="input" type="text" name="search" id="search-arriving" placeholder="" autocomplete="chrome-off">
+                                <div class="results">
+                                    <ul>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class='is-flex is-justify-content-space-between'>
+                        <div class="field">
+                            <label class="label">Date départ:</label>
+                            <div class="control">
+                                <input class="input"  th:field="*{date_flight_departure}" type='datetime-local'/>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Date arrivée:</label>
+                            <div class="control">
+                                <input class="input" th:field="*{date_flight_arriving}" type='datetime-local'/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class='is-flex is-justify-content-space-between'>
+                        <div class="field">
+                            <label class="label">Option</label>
+                            <div class="select">
+                                <select  th:field="*{option}">
+                                    <option value="1">Aller-Retour</option>
+                                    <option value="2">Aller-Simple</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Classe</label>
+                            <div class="select">
+                                <select  th:field="*{id_placeType}">
+                                    <option th:each="type: ${placetypes}" th:value="${type.getId()}" th:text="${type.getName()}"/>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class='is-flex is-justify-content-space-between'>
+                        <div class="field">
+                            <label class="label">Nombre adultes:</label>
+                            <div class="control">
+                                <input class="input"  th:field="*{adultCount}" type='number'/>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Nombre enfants:</label>
+                            <div class="control">
+                                <input class="input"  th:field="*{childCount}" type='number'/>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Nombre bébés:</label>
+                            <div class="control">
+                                <input class="input"  th:field="*{babyCount}" type='number'/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="buttons">
+                        <button onclick="getFlights()" class="button is-primary is-fullwidth" type="submit">Valider</button>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+
+        <div th:replace="fragments/general.html :: footer"></div>
+
+    </body>
+</html>
