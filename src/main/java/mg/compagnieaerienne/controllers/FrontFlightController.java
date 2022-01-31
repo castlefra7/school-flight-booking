@@ -114,6 +114,7 @@ public class FrontFlightController {
             Object flightSearch = session.getAttribute(SESSION_SEARCH);
             Object idFlightDep = session.getAttribute(SESSION_ID_FLIGHT_DEP);
             Object idFlightArr = session.getAttribute(SESSION_ID_FLIGHT_ARR);
+            
             if (ob != null && flightSearch != null && idFlightDep != null && idFlightArr != null) {
                 int[] id_flights = new int[2];
                 id_flights[0] = (Integer) idFlightDep;
@@ -147,7 +148,7 @@ public class FrontFlightController {
             redirectAttr.addFlashAttribute("error", ex.getMessage());
         }
 
-        return "redirect:/flight-front";
+        return "redirect:/";
     }
 
     @GetMapping("/flight-customer-info")
@@ -173,7 +174,9 @@ public class FrontFlightController {
             List<PassengerAttr> passengers = new ArrayList();
             passengers.add(passAttr);
             session.setAttribute(SESSION_PASSENGERS, passengers);
-        }
+        }// $_session["ff"] = "moi";
+        // request.getSession().setAttribute("type", "admin");
+        // request.getSession().setAttribute("type", "user");
         return "redirect:/flight-passenger-info";
     }
 
@@ -196,8 +199,11 @@ public class FrontFlightController {
     }
     
 
-    @GetMapping("/flight-front")
-    public String getFlightSearchForm(Model model) throws Exception {
+    @GetMapping("/")
+    public String getFlightSearchForm(Model model, HttpServletRequest request) throws Exception {
+        HttpSession session = request.getSession();
+        session.removeAttribute(SESSION_PASSENGERS);
+
         FlightSearchAttr flightAttr = new FlightSearchAttr();
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         Date date = sdf.parse("01/07/2021");
@@ -222,6 +228,7 @@ public class FrontFlightController {
     public String postFlightSearchForm(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         try {
+            // echo $_session["userid"];
             if (session.getAttribute(SESSION_SEARCH) != null) {
                 FlightSearchAttr flightAttr = (FlightSearchAttr) session.getAttribute(SESSION_SEARCH);
                 if (flightAttr.getOption() == null || flightAttr.getOption().equals("2")) {

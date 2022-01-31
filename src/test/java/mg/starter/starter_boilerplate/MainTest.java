@@ -23,8 +23,12 @@ public class MainTest {
         List<BaseModel> result = new  StatPayment().findAll();
         for(BaseModel m: result) {
             StatPayment st = (StatPayment)m;
-            System.out.println(st.getDate() + " " + st.getTotal_amount());
+            //System.out.println(st.getDate() + " " + st.getTotal_amount());
         }
+        
+        // PDFGen
+        
+        // ExcelGen
 
     }
 

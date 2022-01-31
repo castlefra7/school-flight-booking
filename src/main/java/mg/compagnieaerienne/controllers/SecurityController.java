@@ -6,6 +6,7 @@
 package mg.compagnieaerienne.controllers;
 
 import mg.compagnieaerienne.security.IAuthenticationFacade;
+import mg.compagnieaerienne.security.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -23,6 +24,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class SecurityController {
     @Autowired
     private IAuthenticationFacade authenticationFacade;
+    
+    @GetMapping("/create-admin")
+    public String createAdmin() throws Exception {
+        User user = new User();
+        user.setUser_type("admin");
+        user.setName("admin");
+        user.setPassword("123456");
+        user.insert();
+        return "login";    
+    }
 
     @GetMapping(value = "/username")
     @ResponseBody

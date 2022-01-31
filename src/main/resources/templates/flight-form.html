@@ -2,57 +2,65 @@
 <html>
     <div th:replace="fragments/general.html :: head"></div>
     <body>
-        <div th:replace="fragments/general.html :: header"></div>
-        <div class="columns is-desktop is-centered">
-            <div class="column p-5 is-one-third">
-                <h1>Insertion d'un vol</h1>
-                <form  th:object="${flighAttr}"
-                       method="post"
-                       th:action="@{/flight}"
-                       >
-                    <div class="field">
-                        <label class="label">Trajet</label>
-                        <div class="select">
-                            <select  th:field="*{id_route}">
-                                <option th:each="route : ${routes}" 
-                                        th:value="${route.id}"
-                                        th:text="${route.getTownOrigin().getName() + ' -> ' + route.getTownDest().getName()}" />
-                            </select>
+        <div class="columns">
+            <div class="" th:replace="fragments/general.html :: header"></div>
+
+            <div id="mn-content" class="column">
+                <div th:replace="fragments/general.html :: messages"></div>
+                    <div class="columns is-desktop is-centered">
+                        <div class="column p-5 is-one-third">
+                            <h1  class="title is-1">Insertion vol</h1>
+                            <form  th:object="${flighAttr}"
+                                method="post"
+                                th:action="@{/flight}"
+                                >
+                                <div class="field">
+                                    <label class="label">Trajet</label>
+                                    <div class="select">
+                                        <select  th:field="*{id_route}">
+                                            <option th:each="route : ${routes}" 
+                                                    th:value="${route.id}"
+                                                    th:text="${route.getTownOrigin().getName() + ' -> ' + route.getTownDest().getName()}" />
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="field">
+                                    <label class="label">Avion</label>
+                                    <div class="select">
+                                        <select  th:field="*{id_plane}">
+                                            <option th:each="plane : ${planes}" 
+                                                    th:value="${plane.id}"
+                                                    th:text="${plane.getName()}" />
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="field">
+                                    <label class="label">Date départ:</label>
+                                    <div class="control">
+                                        <input class="input"  th:field="*{date_flight_departure}" type='datetime-local'/>
+                                    </div>
+                                </div>
+
+                                <div class="field">
+                                    <label class="label">Date arrivée:</label>
+                                    <div class="control">
+                                        <input class="input" th:field="*{date_flight_arriving}" type='datetime-local'/>
+                                    </div>
+                                </div>  
+
+                                <div class="buttons">
+                                    <button class="button is-small is-primary is-fullwidth" type="submit">Valider</button>
+                                </div>
+
+                            </form>
+
                         </div>
                     </div>
-
-                    <div class="field">
-                        <label class="label">Avion</label>
-                        <div class="select">
-                            <select  th:field="*{id_plane}">
-                                <option th:each="plane : ${planes}" 
-                                        th:value="${plane.id}"
-                                        th:text="${plane.getName()}" />
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="field">
-                        <label class="label">Date départ:</label>
-                        <div class="control">
-                            <input class="input"  th:field="*{date_flight_departure}" type='datetime-local'/>
-                        </div>
-                    </div>
-
-                    <div class="field">
-                        <label class="label">Date arrivée:</label>
-                        <div class="control">
-                            <input class="input" th:field="*{date_flight_arriving}" type='datetime-local'/>
-                        </div>
-                    </div>  
-
-                    <div class="buttons">
-                        <button class="button is-primary is-fullwidth" type="submit">Valider</button>
-                    </div>
-
-                </form>
-
             </div>
         </div>
+
+
     </body>
 </html>

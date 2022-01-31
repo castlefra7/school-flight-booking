@@ -5,117 +5,137 @@ To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
 <html>
-    <head th:fragment="head">
-        <title>TODO supply a title</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link th:href="@{/css/bulma.min.css}" rel="stylesheet" />
-        <link th:href="@{/css/style.css}" rel="stylesheet">
-        <meta name="_csrf" th:content="${_csrf.token}"/>
-        <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script> 
 
-        <style>
-            alert {
-                color: red !important;
-            }
-        </style>
-    </head>
-    <body>
-        <div th:fragment="header">
-            <nav class="navbar" role="navigation" aria-label="main navigation">
-                <div class="navbar-brand">
-                    <a class="navbar-item" th:href="@{/flight-front}">
-                        Compagnie aérienne
-                    </a>
-                    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
-                        <span aria-hidden="true"></span>
-                        <span aria-hidden="true"></span>
-                        <span aria-hidden="true"></span>
-                    </a>
-                </div>
+<head th:fragment="head">
+    <title>TODO supply a title</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link th:href="@{/css/bulma.min.css}" rel="stylesheet" />
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+    <meta name="_csrf" th:content="${_csrf.token}" />
+    <meta name="_csrf_header" th:content="${_csrf.headerName}" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
 
-                <div id="navbarBasicExample" class="navbar-menu">
-                    <div class="navbar-start">
-                        <a class="navbar-item" th:href="@{/flight}">
-                            Liste vols Admin
-                        </a>
-                        <a class="navbar-item" th:href="@{/flight-booking-info}">
-                            Réservation Admin
-                        </a>
-                        <a class="navbar-item" th:href="@{/flight-front}">
-                            Réservation
-                        </a>
-                        <a class="navbar-item" th:href="@{/flight-front-rest}">
-                            Réservation Rest
-                        </a>
-                        <a class="navbar-item" th:href="@{/pricing}">
-                            Liste prix
-                        </a>
-                        <a class="navbar-item" th:href="@{/payment}">
-                            Paiement
-                        </a>
-                        <a class="navbar-item" th:href="@{/stats-payments}">
-                            Statistiques Admin
-                        </a>
-                    </div>
+    <style>
+        alert {
+            color: red !important;
+        }
+    </style>
+</head>
 
-                    <div class="navbar-end">
-                        <div class="navbar-item">
-                            <div class="buttons">
-                                <a th:href="@{/login}" class="button is-primary">
-                                    <strong>Se connecter</strong>
-                                </a>
-                                <button class="button" disabled>Admin</button>
-                                <form class="is-flex is-align-items-center is-flex-direction-row" 
-                                      sec:authorize="isAuthenticated()" th:action="@{/perform_logout}" method="post">
-                                    <input class="button is-primary" type="submit" value="Se déconnecter" />
-                                </form>
-                            </div>
+<body>
+
+    <div th:fragment="messages">
+        <div th:if="${error != null}">
+            <div th:if="${error != ''}" class="columns mt-2 is-mobile is-centered">
+                <div class="column is-half">
+                    <article class="message is-danger">
+                        <div class="message-header">
+                            <p>Erreur</p>
                         </div>
-                    </div>
-                </div>
-            </nav>
-            <div th:if="${error != null}">
-                <div th:if="${error != ''}" class="columns mt-2 is-mobile is-centered">
-                    <div class="column is-half">
-                        <article class="message is-danger">
-                            <div class="message-header">
-                                <p>Erreur</p>
-                            </div>
 
-                            <div  class="message-body">
-                                <p  th:text="${error}" />
-                            </div>
-                        </article>
-                    </div>
+                        <div class="message-body">
+                            <p th:text="${error}" />
+                        </div>
+                    </article>
                 </div>
             </div>
+        </div>
 
-            <div th:if="${success != null}">
-                <div th:if="${success != ''}" class="columns mt-2 is-mobile is-centered">
-                    <div class="column is-half">
-                        <article class="message is-success">
-                            <div class="message-header">
-                                <p>Succès</p>
-                            </div>
+        <div th:if="${success != null}">
+            <div th:if="${success != ''}" class="columns mt-2 is-mobile is-centered">
+                <div class="column is-half">
+                    <article class="message is-success">
+                        <div class="message-header">
+                            <p>Succès</p>
+                        </div>
 
-                            <div  class="message-body">
-                                <p  th:text="${success}" />
-                            </div>
-                        </article>
-                    </div>
+                        <div class="message-body">
+                            <p th:text="${success}" />
+                        </div>
+                    </article>
                 </div>
             </div>
-
         </div>
     </div>
 
 
+    <div id="menu-aside" th:fragment="header" class="column is-one-fifth">
+        <nav class="navbar my-2 ml-1" role="navigation" aria-label="main navigation">
+            <div class="navbar-brand">
+                <a class="navbar-item" th:href="@{/}">
+                    Compagnie aérienne
+                </a>
+            </div>
+        </nav>
+        <aside class="menu ml-1">
+            <p class="menu-label">Général</p>
+            <ul class="menu-list">
+                <li>
+                    <a class="" th:href="@{/}">
+                        Réservation
+                    </a>
+                </li>
+                <!-- <li>
+                    <a th:href="@{/flight-front-rest}">
+                        Réservation Rest
+                    </a>
+                </li> -->
+                <li>
+                    <a th:href="@{/payment}">
+                        Paiement
+                    </a>
+                </li>
+                <li>
+                    <a th:href="@{/pricing}">
+                        Liste prix
+                    </a>
+                </li>
+            </ul>
+            <p sec:authorize='isAuthenticated()' class="menu-label">Administration</p>
+            <ul class="menu-list" sec:authorize="isAuthenticated()">
+                <li>
+                    <a class="" th:href="@{/stats-payments}">
+                        Statistiques
+                    </a>
+                </li>
+                <li>
+                    <a th:href="@{/flight}">
+                        Liste vols
+                    </a>
+                </li>
+                <li>
+                    <a th:href="@{/flight-booking-info}">
+                        Réservation
+                    </a>
+                </li>
+                <li>
+                    <a th:href="@{/users}">
+                        Utilisateurs
+                    </a>
+                </li>
+            </ul>
+
+            <p class="menu-label">Paramètres</p>
+            <ul class="menu-list">
+                <li><a sec:authorize="!isAuthenticated()" th:href="@{/login}" class="button is-small is-small is-primary">
+                        <strong>Se connecter</strong>
+                    </a></li>
+                <li>
+                    <form class="is-flex is-align-items-center is-flex-direction-row" sec:authorize="isAuthenticated()"
+                        th:action="@{/perform_logout}" method="post">
+                        <button th:text="${#authentication.getPrincipal().getUser().getName()}" class="button is-small is-small is-small mr-1" disabled></button>
+                            <input class="button is-small is-small is-primary is-small" type="submit" value="Se déconnecter" />
+                        </form>
+                </li>
+            </ul>
+            
+        </aside>
+    </div>
+
+
+
     <div class="content" th:fragment="footer">
-        <script>
-            console.log("df");
-        </script>
         <script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
         <script type="text/javascript" th:src="@{/js/app.js}"></script>
         <script type="text/javascript" th:src="@{/js/chart.js}"></script>

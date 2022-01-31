@@ -45,7 +45,7 @@ public class Town extends BaseModel {
 
     public Town findOneTownByName(String name, Connection conn) throws Exception {
         name = name.toLowerCase().trim();
-        if (name.isEmpty() || name.isBlank()) {
+        if (name.isEmpty()) {
             throw new Exception("Cette ville n'existe pas");
         }
         String req = String.format("select * from towns where name like '%s'", name);
@@ -70,7 +70,7 @@ public class Town extends BaseModel {
     public List<BaseModel> findTownByName(String name, Connection conn) throws Exception {
         name = name.toLowerCase().trim();
         List<BaseModel> empty = new ArrayList();
-        if (name.isEmpty() || name.isBlank()) {
+        if (name.isEmpty()) {
             return empty;
         }
         String req = String.format("select * from towns where name like '%%%s%%'", name);

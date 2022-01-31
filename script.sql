@@ -8,8 +8,10 @@
 
 */
 
+
 DROP SCHEMA public CASCADE;
 CREATE SCHEMA public;
+CREATE EXTENSION pgcrypto;
 
 create type passengerCateg as  enum ('bébé', 'enfant', 'adulte');
 create type userType as  enum ('admin', 'user');
@@ -17,8 +19,11 @@ create type userType as  enum ('admin', 'user');
 create table users (
     id serial primary key,
     name varchar(255) not null check (name <> ''),
-    password char(60) not null check (password <>'')
+    password char(60) not null check (password <>''),
+    user_type userType not null
 );
+
+insert into users (name, password, user_type) values ('admin', crypt('123456', gen_salt('bf')), 'admin');
 
 create table towns (
     id serial primary key,
@@ -112,6 +117,8 @@ create table pricings (
     unique (id_place_type, id_route, passenger_categ)
 );
 
+
+
 /* JOUR 2 */
 create type cardType as  enum ('visa', 'mastercard', 'discover', 'amex', 'diners', 'jcb');
 create table payments (
@@ -123,6 +130,7 @@ create table payments (
     amount double precision not null check (amount > 0),
     unique (booking_number)
 );
+
 
 alter table payments add column card_name cardType;
 

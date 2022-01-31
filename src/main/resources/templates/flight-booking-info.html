@@ -2,46 +2,65 @@
 <html>
     <div th:replace="fragments/general.html :: head"></div>
     <body>
-        <div th:replace="fragments/general.html :: header"></div>
+        
+        <div class="columns">
+            <div class="" th:replace="fragments/general.html :: header"></div>
+        
+            <div id="mn-content" class="column">
+                <div th:replace="fragments/general.html :: messages"></div>
 
-        <div class="columns is-centered">
-            <div class="column is-four-fifths">
-                <h1 class="is-size-1">Information sur les vols</h1>
-
-                <table class="table is-bordered mt-2">
-                    <thead>
-                        <tr>
-                            <th>Départ</th>
-                            <th>Destination</th>
-                            <th>Date départ</th>
-                            <th>Date arrivée</th>
-                            <th>Avion</th>
-                            <th>Classe</th>
-                            <th>Chaises total</th>
-                            <th>Chaises restantes</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr th:each="flight: ${flights}">
-                            <td th:text="${flight.getOrigin_name()}" />
-                            <td th:text="${flight.getDest_name()}" />
-                            <td th:text="${#dates.format(flight.getDate_flight_departure(), 'dd-MMM-yyyy HH:mm')}" />
-                            <td th:text="${#dates.format(flight.getDate_flight_arriving(), 'dd-MMM-yyyy HH:mm')}" />
-                            <td th:text="${flight.getName()}" />
-                            <td th:text="${flight.getName_placeType()}" />
-                            <td th:text="${flight.getNumber_places()}" />
-                            <td  th:classappend="${flight.getNumber_places() != flight.getRemain_places()} ? showRemainPlace : standardClass" th:text="${flight.getRemain_places()}" />
-                            <td>
-                                <a th:href='@{/flight-details/{id}(id=${flight.getId()})}' class="button is-small is-marginless is-primary">Détails</a>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-
-
+                <div class="columns is-centered">
+                    <div class="column">
+                        <h1 class="is-size-1">Information sur les vols</h1>
+        
+                        <table class="table is-bordered mt-2">
+                            <thead>
+                                <tr>
+                                    <th>Départ</th>
+                                    <th>Destination</th>
+                                    <th>Date départ</th>
+                                    <th>Date arrivée</th>
+                                    <th>Avion</th>
+                                    <th>Classe</th>
+                                    <th>Chaises total</th>
+                                    <th>Chaises restantes</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="flight: ${flights}">
+                                    <td th:text="${flight.getOrigin_name()}" />
+                                    <td th:text="${flight.getDest_name()}" />
+                                    <td th:text="${#dates.format(flight.getDate_flight_departure(), 'dd-MMM-yyyy HH:mm')}" />
+                                    <td th:text="${#dates.format(flight.getDate_flight_arriving(), 'dd-MMM-yyyy HH:mm')}" />
+                                    <td th:text="${flight.getName()}" />
+                                    <td th:text="${flight.getName_placeType()}" />
+                                    <td th:text="${flight.getNumber_places()}" />
+                                    <td  th:classappend="${flight.getNumber_places() != flight.getRemain_places()} ? showRemainPlace : standardClass" th:text="${flight.getRemain_places()}" />
+                                    <td>
+                                        <a th:href='@{/flight-details/{id}(id=${flight.getId()})}' class="button is-small is-small is-marginless is-primary">Détails</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <nav th:if="${numberpages > 0}" class="pagination is-centered" role="navigation" aria-label="pagination">
+                            <a th:href="@{/flight-booking-info(page=${prev})}"  class="pagination-previous">Previous</a>
+                            <a th:href="@{/flight-booking-info(page=${next})}" class="pagination-next">Next page</a>
+                            <ul class="pagination-list">
+                                <li  th:each="iter: ${#numbers.sequence(1, __${numberpages}__)}">
+                                    <a
+                                        th:classappend="${(iter-1== page) ? 'is-current': ''}"
+                                        th:href="@{/flight-booking-info(page=${iter-1})}"
+                                        th:text="${iter}" class="pagination-link">-1</a></li>
+                            </ul>
+                        </nav>
+        
+                    </div>
+                </div>
             </div>
         </div>
+
+
         <div th:replace="fragments/general.html :: footer"></div>
     </body>
 </html> 

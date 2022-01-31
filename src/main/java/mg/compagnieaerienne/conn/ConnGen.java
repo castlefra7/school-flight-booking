@@ -36,8 +36,8 @@ public class ConnGen {
             /*PropReader prop = new PropReader();
             String dbUrl = "jdbc:postgresql://" + "localhost" + ':' + prop.getDbPort() + "/" + prop.getDbName(); 
             conn = DriverManager.getConnection(dbUrl, prop.getDbUser(), prop.getDbPassword());*/
-            String dbUrl = "jdbc:postgresql://" + "localhost" + ':' + "5432" + "/" + "compagnie_aerienne_p9";
-            conn = DriverManager.getConnection(dbUrl, "hihi", "123456");
+            String dbUrl = "jdbc:postgresql://" + "localhost" + ':' + "5432" + "/" + "postgres";
+            conn = DriverManager.getConnection(dbUrl, "postgres", "1");
         }
         return conn;
     }

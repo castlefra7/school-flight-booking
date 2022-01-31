@@ -2,18 +2,21 @@
 <html>
     <div th:replace="fragments/general.html :: head"></div>
     <body>
-        <div th:replace="fragments/general.html :: header"></div>
-        <h1 class="is-size-1 px-5">Statistiques paiements</h1>
-        <div class="columns p-5">
-            <div class="column">
-                <h2 class="is-size-2">Montant journalier</h2>
-                <canvas id="myChart" width="200" height="200"></canvas>
-            </div>
-            <div class="column">
-                <h2 class="is-size-2">Montant par Trajet</h2>
-                <canvas id="myChart1" width="200" height="200"></canvas>
+        <div class="columns">
+            <div class="" th:replace="fragments/general.html :: header"></div>
+        
+            <div id="mn-content" class="column">
+                <div th:replace="fragments/general.html :: messages"></div>
+                <h1 class="is-size-1 px-5"><u>Statistique paiements</u></h1>
+                <div class="columns p-5 is-desktop is-centered">
+                    <div class="column">
+                        <h2 class="is-size-3">Montant journalier</h2>
+                        <canvas id="myChart" height="350px"></canvas>
+                    </div>
+                </div>
             </div>
         </div>
+       
         <div th:replace="fragments/general.html :: footer"></div>
     </body>
 </html> 

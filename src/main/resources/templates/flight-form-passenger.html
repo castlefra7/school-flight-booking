@@ -2,49 +2,57 @@
 <html>
     <div th:replace="fragments/general.html :: head"></div>
     <body>
-        <div th:replace="fragments/general.html :: header"></div>
-        <div class="columns is-mobile is-centered">
-            <div class="column p-5 is-one-third">
-                <h1>Détails passager:</h1>
-                <form  th:object="${passAttr}"
-                       method="post"
-                       th:action="@{/flight-passenger-info}"
-                       >
-                    <div class="field">
-                        <label class="label">Nom</label>
-                        <div class="control">
-                            <input class="input" th:field="*{last_name}" />
+        
+        <div class="columns">
+            <div class="" th:replace="fragments/general.html :: header"></div>
+        
+            <div id="mn-content" class="column">
+                <div th:replace="fragments/general.html :: messages"></div>
+                <div class="columns is-mobile is-centered">
+                    <div class="column p-5 is-one-third">
+                        <h1 class="title is-3"><u>Détails passager</u></h1>
+                        <form  th:object="${passAttr}"
+                               method="post"
+                               th:action="@{/flight-passenger-info}"
+                               >
+                            <div class="field">
+                                <label class="label">Nom</label>
+                                <div class="control">
+                                    <input class="input" th:field="*{last_name}" />
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label class="label">Prénom</label>
+                                <div class="control">
+                                    <input class="input" th:field="*{first_name}" />
+                                </div>
+                            </div>
+        
+                            <div class="field">
+                                <label class="label">Catégorie</label>
+                                <div class="select">
+                                    <select  th:field="*{passenger_categ}">
+                                        <option value="adulte">Adulte</option>
+                                        <option value="enfant">Enfant</option>
+                                        <option value="bébé">Bébé</option>
+                                    </select>
+                                </div>
+                            </div>
+        
+        
+                            <div class="buttons">
+                                <button class="button is-small is-primary is-fullwidth" type="submit">Valider</button>
+                            </div>
+        
+                        </form>
+                        <div class="my-2">
+                            <a th:href="@{/flight-customer-info}" class="button is-small is-primary is-fullwidth" type="submit">Vos coordonées</a>
                         </div>
+        
                     </div>
-                    <div class="field">
-                        <label class="label">Prénom</label>
-                        <div class="control">
-                            <input class="input" th:field="*{first_name}" />
-                        </div>
-                    </div>
-
-                    <div class="field">
-                        <label class="label">Catégorie</label>
-                        <div class="select">
-                            <select  th:field="*{passenger_categ}">
-                                <option value="adulte">Adulte</option>
-                                <option value="enfant">Enfant</option>
-                                <option value="bébé">Bébé</option>
-                            </select>
-                        </div>
-                    </div>
-
-
-                    <div class="buttons">
-                        <button class="button is-primary is-fullwidth" type="submit">Valider</button>
-                    </div>
-
-                </form>
-                <div class="my-2">
-                    <a th:href="@{/flight-customer-info}" class="button is-primary is-fullwidth" type="submit">Vos coordonées</a>
                 </div>
-
             </div>
         </div>
+
     </body>
 </html>

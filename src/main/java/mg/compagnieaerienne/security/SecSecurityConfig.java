@@ -29,23 +29,25 @@ public class SecSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
         http
-                
                 .authorizeRequests()
-                /*
                 .antMatchers("/login").permitAll()
-                .antMatchers("/error").permitAll()
-                .antMatchers("/css/**").permitAll()
-                .antMatchers("/js/**").permitAll()
-                .antMatchers("/perform_logout").permitAll()
-                .antMatchers("/flights-form").permitAll()
-*/
+                .antMatchers("/create-admin").permitAll()
+
+                .antMatchers("/stats-payments/**").authenticated()
+                .antMatchers("/flight/**").authenticated()
+                .antMatchers("/flight-form/**").authenticated()
+                .antMatchers("/flight-booking-info/**").authenticated()
+                .antMatchers("/flight-details/**").authenticated()
+                .antMatchers("/users/**").authenticated()
+                .antMatchers("/users-form/**").authenticated()
+                
                 .anyRequest().permitAll()
-                //.anyRequest().authenticated()
+                
                 .and()
                 .formLogin()
                 .loginPage("/login")
                 .loginProcessingUrl("/perform_login")
-                .defaultSuccessUrl("/road-all-front", true)
+                .defaultSuccessUrl("/", true)
                 .failureUrl("/login?error=Nom ou mot de passe incorrect")
                 .and()
                 .logout()

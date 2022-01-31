@@ -61,6 +61,30 @@ public class Flight extends BaseModel {
         this.setDate_flight_departure(_date_dep);
     }
 
+    /* FOR PAGINATION */
+    public int numberPage(double _count) throws Exception {
+        return (int) Math.ceil(count() / _count);
+    }
+
+    public int count() throws Exception {
+        try (Connection conn = ConnGen.getConn()) {
+            return FctGen.getInt("c", "select count(*) c from flights", conn);
+        } catch (Exception ex) {
+            throw ex;
+        }
+    }
+
+    public List<BaseModel> findAllPage(int page, int count) throws Exception {
+        try (Connection conn = ConnGen.getConn()) {
+            page = page * count;
+            String req = String.format("select * from all_flights limit %d offset %d", count, page);
+            return this.findAll(req, conn);
+        } catch (Exception ex) {
+            throw ex;
+        }
+    }
+    /* END FOR PAGINATION */
+
     public void setIdTowns(FlightSearchAttr searchAttr) throws Exception {
         try (Connection conn = ConnGen.getConn()) {
             Town town = new Town();
@@ -70,14 +94,16 @@ public class Flight extends BaseModel {
             throw ex;
         }
     }
-    
-      public List<Integer> book(List<PassengerAttr> _passengers,
+
+    public List<Integer> book(List<PassengerAttr> _passengers,
             CustomerAttr _custAttr,
             FlightSearchAttr fligthSearch,
             int[] _id_flights) throws Exception {
         List<Integer> result = new ArrayList();
         for (int iD = 0; iD < _id_flights.length; iD++) {
-            if(_id_flights[iD] == ID_NO_FLIGHT) continue;
+            if (_id_flights[iD] == ID_NO_FLIGHT) {
+                continue;
+            }
             result.add(book(_passengers, _custAttr, fligthSearch, _id_flights[iD]));
         }
         return result;

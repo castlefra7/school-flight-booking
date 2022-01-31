@@ -2,61 +2,68 @@
 <html>
     <div th:replace="fragments/general.html :: head"></div>
     <body>
-        <div th:replace="fragments/general.html :: header"></div>
-        <div class="columns is-desktop is-centered">
-            <div class="column p-5 is-one-third">
-                <h1>Paiement</h1>
-                <form  th:object="${paymentAttr}"
-                       method="post"
-                       th:action="@{/payment}"
-                       >
-                    <div class="field">
-                        <label class="label">Date</label>
-                        <div class="control">
-                            <input class="input"  th:field="*{date_payment}" type='datetime-local'/>
-                        </div>
+        <div class="columns">
+            <div class="" th:replace="fragments/general.html :: header"></div>
+        
+            <div id="mn-content" class="column">
+                <div th:replace="fragments/general.html :: messages"></div>
+                <div class="columns is-desktop is-centered">
+                    <div class="column p-5 is-one-third">
+                        <h1  class="title is-1">Paiement</h1>
+                        <form  th:object="${paymentAttr}"
+                               method="post"
+                               th:action="@{/payment}"
+                               >
+                            <div class="field">
+                                <label class="label">Date</label>
+                                <div class="control">
+                                    <input class="input"  th:field="*{date_payment}" type='datetime-local'/>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label class="label">Email</label>
+                                <div class="control">
+                                    <input type="text" class="input" th:field="*{email}" />
+                                </div>
+                            </div>
+        
+                            <div class="field">
+                                <label class="label">Numéro de carte bancaire</label>
+                                <div class="control">
+                                    <input class="input" th:field="*{bank_card}" type='text'/>
+                                </div>
+                            </div>  
+                            <div class="field">
+                                <label class="label">Code de réservation</label>
+                                <div class="control">
+                                    <input class="input" th:field="*{booking_number}" type='number'/>
+                                </div>
+                            </div>  
+                            
+                            <div class="field">
+                                <label class="label">Opérateur</label>
+                                <div class="select">
+                                    <select class="input" th:field="*{card_name}">
+                                        <option value="visa">Visa</option>
+                                        <option value="mastercard">Mastercard</option>
+                                        <option value="discover">Discover</option>
+                                        <option value="amex">Amex</option>
+                                        <option value="diners">Diners</option>
+                                        <option value="jcb">Jcb</option>
+                                    </select>
+                                </div>
+                            </div>  
+        
+                            <div class="buttons">
+                                <button class="button is-small is-primary is-fullwidth" type="submit">Valider</button>
+                            </div>
+        
+                        </form>
+        
                     </div>
-                    <div class="field">
-                        <label class="label">Email</label>
-                        <div class="control">
-                            <input type="text" class="input" th:field="*{email}" />
-                        </div>
-                    </div>
-
-                    <div class="field">
-                        <label class="label">Numéro de carte bancaire</label>
-                        <div class="control">
-                            <input class="input" th:field="*{bank_card}" type='text'/>
-                        </div>
-                    </div>  
-                    <div class="field">
-                        <label class="label">Code de réservation</label>
-                        <div class="control">
-                            <input class="input" th:field="*{booking_number}" type='number'/>
-                        </div>
-                    </div>  
-                    
-                    <div class="field">
-                        <label class="label">Opérateur</label>
-                        <div class="select">
-                            <select class="input" th:field="*{card_name}">
-                                <option value="visa">Visa</option>
-                                <option value="mastercard">Mastercard</option>
-                                <option value="discover">Discover</option>
-                                <option value="amex">Amex</option>
-                                <option value="diners">Diners</option>
-                                <option value="jcb">Jcb</option>
-                            </select>
-                        </div>
-                    </div>  
-
-                    <div class="buttons">
-                        <button class="button is-primary is-fullwidth" type="submit">Valider</button>
-                    </div>
-
-                </form>
-
+                </div>
             </div>
         </div>
+
     </body>
 </html>

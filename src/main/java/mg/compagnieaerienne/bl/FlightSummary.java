@@ -7,6 +7,7 @@ package mg.compagnieaerienne.bl;
 
 import java.sql.Connection;
 import java.util.List;
+import mg.compagnieaerienne.conn.ConnGen;
 import mg.compagnieaerienne.gen.FctGen;
 import org.slf4j.Logger;
 
@@ -16,6 +17,8 @@ import org.slf4j.Logger;
  */
 public class FlightSummary extends Flight {
 
+    private static String columns = "id_flight;id_place_type;remain_places;name;number_places;origin_name;"
+            + "date_flight_arriving;date_flight_departure;dest_name;name_placetype";
     private int id_flight;
     private int id_place_type;
     private int remain_places;
@@ -31,18 +34,39 @@ public class FlightSummary extends Flight {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    public int numberPage(double _count) throws Exception {
+        return (int) Math.ceil(count() / _count);
+    }
+
+    public int count() throws Exception {
+        try (Connection conn = ConnGen.getConn()) {
+            return FctGen.getInt("c", "select count(*) c from all_flights_summary_with_details", conn);
+        } catch (Exception ex) {
+            throw ex;
+        }
+    }
+
+    public List<BaseModel> findAllPage(int page, int count) throws Exception {
+        try (Connection conn = ConnGen.getConn()) {
+            page = page * count;
+            String req = String.format("select * from all_flights_summary_with_details limit %d offset %d", count, page);
+            return this.findAll(req, conn);
+        } catch (Exception ex) {
+            throw ex;
+        }
+    }
+
     @Override
     public List<BaseModel> findAll(Connection conn) throws Exception {
         String req = "select remain_places, id_place_type, id_flight, date_flight_departure,"
                 + "date_flight_arriving, origin_name, dest_name, name, name_placetype, number_places from all_flights_summary_with_details";
-        String columns = "id_flight;id_place_type;remain_places;name;number_places;origin_name;"
-                + "date_flight_arriving;date_flight_departure;dest_name;name_placetype";
+
         return (List<BaseModel>) (List<?>) FctGen.findAll(this, req, columns, conn);
     }
 
     @Override
     public List<BaseModel> findAll(String req, Connection conn) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return (List<BaseModel>) (List<?>) FctGen.findAll(this, req, columns, conn);
     }
 
     @Override

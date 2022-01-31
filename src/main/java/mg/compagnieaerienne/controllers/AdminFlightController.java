@@ -16,6 +16,7 @@ import mg.compagnieaerienne.bl.Route;
 import mg.compagnieaerienne.bl.Ticket;
 import mg.compagnieaerienne.rsc.FlightAttr;
 import mg.compagnieaerienne.rsc.PricingAttr;
+import mg.compagnieaerienne.security.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
@@ -34,6 +36,48 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class AdminFlightController {
 
     Logger logger = LoggerFactory.getLogger(AdminFlightController.class);
+    
+    @PostMapping("/users-update")
+    public String updateUser( @ModelAttribute User user, RedirectAttributes redirect) {
+        try {
+            user.update();
+            return "redirect:/users";
+        } catch(Exception ex) {
+            redirect.addFlashAttribute("error", ex.getMessage());
+            return "redirect:/users/"+ user.getId();
+        }
+    }
+    
+    @GetMapping("/users/{id}")
+    public String updateUserForm(@PathVariable("id") int id, Model model) throws Exception {
+        model.addAttribute("userAttr", new User().findById(id));
+        model.addAttribute("isupdate", true);
+        return "user-form";
+    }
+    
+    @PostMapping("/users")
+    public String postUser(@ModelAttribute User user,RedirectAttributes redirect) {
+        try {
+            user.insert();
+            return "redirect:/users";
+        } catch(Exception ex) {
+            redirect.addFlashAttribute("error", ex.getMessage());
+            return "redirect:/users-form";
+        }
+        
+    }
+    
+    @GetMapping("/users-form")
+    public String getUsersForm(Model model) {
+        model.addAttribute("userAttr", new User());
+        return "user-form";
+    }
+    
+    @GetMapping("/users")
+    public String getUsers(Model model) throws Exception {
+        model.addAttribute("users", new User().findAll());
+        return "user-list";
+    }
 
     @GetMapping("/flight-details/{id}")
     public String getFlightDetails(@PathVariable("id") int id, Model model) throws Exception {
@@ -46,14 +90,17 @@ public class AdminFlightController {
 
         return "stats-payments";
     }
-
+    
+    /* FOR PAGINATION */
     @GetMapping("/flight-booking-info")
-    public String getFlightBookingInfo(Model model) throws Exception {
-        List<BaseModel> all = new FlightSummary().findAll();
+    public String getFlightBookingInfo(Model model,@RequestParam(name="page", required=false, defaultValue="0") int page) throws Exception {
+        List<BaseModel> all = new FlightSummary().findAllPage(page, count_per_page);
         model.addAttribute("flights", all);
-
+        model.addAttribute("numberpages", new FlightSummary().numberPage(count_per_page));
+        model.addAttribute("page", page);
         return "flight-booking-info";
     }
+    /* END FOR PAGINATION */
 
     @GetMapping("/pricing-form")
     public String getPricingForm(Model model) throws Exception {
@@ -101,10 +148,14 @@ public class AdminFlightController {
         }
 
     }
+    
+    private int count_per_page=  5;
 
     @GetMapping("/flight")
-    public String getAllFlights(Model model) throws Exception {
-        model.addAttribute("flights", new Flight().findAll());
+    public String getAllFlights(Model model,  @RequestParam(name="page", required=false, defaultValue="0") int page) throws Exception {
+        model.addAttribute("flights", new Flight().findAllPage(page, count_per_page));
+        model.addAttribute("numberpages", new Flight().numberPage(count_per_page));
+        model.addAttribute("page", page);
         return "flight-list";
     }
 

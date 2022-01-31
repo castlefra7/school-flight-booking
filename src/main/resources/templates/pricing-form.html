@@ -2,58 +2,65 @@
 <html>
     <div th:replace="fragments/general.html :: head"></div>
     <body>
-        <div th:replace="fragments/general.html :: header"></div>
-        <div class="columns is-desktop is-centered">
-            <div class="column p-5 is-one-third">
-                <h1>Insertion prix</h1>
-                <form  th:object="${pricingAttr}"
-                       method="post"
-                       th:action="@{/pricing}"
-                       >
-                    <div class="field">
-                        <label class="label">Trajet</label>
-                        <div class="select">
-                            <select  th:field="*{id_route}">
-                                <option th:each="route : ${routes}" 
-                                        th:value="${route.id}"
-                                        th:text="${route.getTownOrigin().getName() + ' -> ' + route.getTownDest().getName()}" />
-                            </select>
-                        </div>
+        <div class="columns">
+            <div class="" th:replace="fragments/general.html :: header"></div>
+        
+            <div id="mn-content" class="column">
+                <div th:replace="fragments/general.html :: messages"></div>
+                <div class="columns is-desktop is-centered">
+                    <div class="column p-5 is-one-third">
+                        <h1>Insertion prix</h1>
+                        <form  th:object="${pricingAttr}"
+                               method="post"
+                               th:action="@{/pricing}"
+                               >
+                            <div class="field">
+                                <label class="label">Trajet</label>
+                                <div class="select">
+                                    <select  th:field="*{id_route}">
+                                        <option th:each="route : ${routes}" 
+                                                th:value="${route.id}"
+                                                th:text="${route.getTownOrigin().getName() + ' -> ' + route.getTownDest().getName()}" />
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label class="label">Classe</label>
+                                <div class="select">
+                                    <select  th:field="*{id_place_type}">
+                                        <option th:each="type: ${placetypes}" th:value="${type.getId()}" th:text="${type.getName()}"/>
+                                    </select>
+                                </div>
+                            </div>
+        
+                            <div class="field">
+                                <label class="label">Catégorie</label>
+                                <div class="select">
+                                    <select  th:field="*{passenger_categ}">
+                                        <option value="adulte">Adulte</option>
+                                        <option value="enfant">Enfant</option>
+                                        <option value="bébé">Bébé</option>
+                                    </select>
+                                </div>
+                            </div>
+        
+                            <div class="field">
+                                <label class="label">Prix</label>
+                                <div class="control">
+                                    <input class="input" th:field="*{price}" type='number'/>
+                                </div>
+                            </div>  
+        
+                            <div class="button is-smalls">
+                                <button class="button is-small is-primary is-fullwidth" type="submit">Valider</button>
+                            </div>
+        
+                        </form>
+        
                     </div>
-                    <div class="field">
-                        <label class="label">Classe</label>
-                        <div class="select">
-                            <select  th:field="*{id_place_type}">
-                                <option th:each="type: ${placetypes}" th:value="${type.getId()}" th:text="${type.getName()}"/>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="field">
-                        <label class="label">Catégorie</label>
-                        <div class="select">
-                            <select  th:field="*{passenger_categ}">
-                                <option value="adulte">Adulte</option>
-                                <option value="enfant">Enfant</option>
-                                <option value="bébé">Bébé</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="field">
-                        <label class="label">Prix</label>
-                        <div class="control">
-                            <input class="input" th:field="*{price}" type='number'/>
-                        </div>
-                    </div>  
-
-                    <div class="buttons">
-                        <button class="button is-primary is-fullwidth" type="submit">Valider</button>
-                    </div>
-
-                </form>
-
+                </div>
             </div>
         </div>
+
     </body>
 </html>

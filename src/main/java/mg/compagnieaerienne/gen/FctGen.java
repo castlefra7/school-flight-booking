@@ -229,6 +229,10 @@ public class FctGen {
 
         return result;
     }
+    
+    public static Object find(Object ob, String req, String columns, Connection conn) throws SQLException, InstantiationException, NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+        return find(ob, req, columns.split(";"), conn);
+    }
 
     public static Object find(Object ob, String req, String[] columns, Connection conn) throws SQLException, InstantiationException, NoSuchMethodException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
         Object result = null;
